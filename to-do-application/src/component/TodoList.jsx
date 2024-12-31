@@ -9,9 +9,14 @@ const TodoList = () => {
 
   const addTask = async() => {
     if (task.trim() === '') return; 
-    const reponse=await axios.post('http://localhost:5000/tasks', { title: task })
+    try{
+      const reponse=await axios.post('http://localhost:5000/tasks', { title: task })
       setTasks([...tasks, reponse.data]);
       setTask('');
+    }
+    catch{
+      console.log('error adding task',error);
+    }
     
   };
 
@@ -24,14 +29,8 @@ const TodoList = () => {
     catch(error){
       console.log('error deleting',error);
     }
-  }
+  };
  
-
-  
-  useEffect(()=>{
-    fetchTasks()
-  },[])
-
   const fetchTasks=async()=>{
     try{
       const response=await axios.get('http://localhost:5000/tasks')
@@ -40,9 +39,25 @@ const TodoList = () => {
     catch(error){
       console.log('error fetching tasks',error);
     }
+
+    
   };
 
+  
+  useEffect(()=>{
+    fetchTasks();
+  },[])
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      addTask();
+    }
+
+  };
+  
+  
+
+  
   return (
     <div className="bg-[#2361cc] min-h-screen w-full flex  justify-center overflow-auto ">
       <div className="bg-white rounded-lg shadow-lg w-[90%] h-full  max-w-[600px] p-6">
@@ -53,6 +68,7 @@ const TodoList = () => {
               type="text"
               value={task}
               onChange={(e) => setTask(e.target.value)}
+              onKeyDown={handleKeyPress}
               placeholder="Add a new task"
               className="flex-grow py-3 px-4 rounded-lg border border-gray-300 outline-none focus:ring-2 focus:ring-[#2a6ce8]"
             />
