@@ -10,6 +10,12 @@ const TodoList = () => {
   const addTask = async() => {
     if (task.trim() === '') return; 
     try{
+      fetch(`http://localhost:5000/tasks`,{
+        method: 'POST',
+        body:{
+          task: task
+        }
+      })
       const reponse=await axios.post('http://localhost:5000/tasks', { title: task })
       setTasks([...tasks, reponse.data]);
       setTask('');
