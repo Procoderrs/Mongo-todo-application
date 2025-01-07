@@ -1,3 +1,4 @@
+
 const express=require('express')
 const router=express.Router()
 
@@ -63,10 +64,3 @@ module.exports=router;
 
 
 
-//lets create our first route -- add todos in our database.
-
-
-
-
-//export router
-module.exports=router
