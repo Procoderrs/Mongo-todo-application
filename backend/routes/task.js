@@ -2,7 +2,6 @@
 const express=require('express')
 const router=express.Router()
 
-const todoItemsModel=require('../models/Task')
 const Task = require('../models/Task')
 
 
@@ -27,8 +26,8 @@ router.get('/',async(req,res)=>{
 router.post('/',async(req,res)=>{
   const task = new Task({
  title: req.body.title,
-completed:false
-  });
+/* completed:false
+ */  });
 
   try{
     const newTask= await task.save();
